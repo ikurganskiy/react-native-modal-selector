@@ -49,7 +49,7 @@ const propTypes = {
     overlayStyle:                   ViewPropTypes.style,
     cancelText:                     PropTypes.string,
     disabled:                       PropTypes.bool,
-    supportedOrientations:          PropTypes.array,
+    supportedOrientations:          PropTypes.arrayOf(PropTypes.string),
     keyboardShouldPersistTaps:      PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     backdropPressToClose:           PropTypes.bool,
     openButtonContainerAccessible:  PropTypes.bool,
@@ -141,10 +141,7 @@ export default class ModalSelector extends React.Component {
     }
 
     onChange = (item) => {
-        if (Platform.OS === 'android' || !Modal.propTypes.onDismiss) {
-            // RN >= 0.50 on iOS comes with the onDismiss prop for Modal which solves RN issue #10471
-            this.props.onChange(item);
-        }
+        this.props.onChange(item);
         this.setState({ selected: this.props.labelExtractor(item), changedItem: item }, () => {
           if (this.props.closeOnChange)
             this.close();
